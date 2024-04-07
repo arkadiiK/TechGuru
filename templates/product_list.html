@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+{% extends 'templates/base.html' %}
+    {% for product in products %}
+    <li>
+        <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+    </li>
+    {% empty %}
+    <li>
+        No products found
+    </li>
+{% endfor %}
+</body>
+</html>

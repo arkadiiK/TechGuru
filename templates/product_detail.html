@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Detail</title>
+</head>
+<body>
+{% extends 'templates/base.html' %}
+
+{% block content %}
+    <h2>{{ product.name }}</h2>
+    <p>Price: {{ product.price }}</p>
+    <p>{{ product.description }}</p>
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+    <a href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+{% endblock %}
+</body>
+</html>

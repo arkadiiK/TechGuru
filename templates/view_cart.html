@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+{% extends 'templates/base.html' %}
+
+    <ul>
+        {% for item in order_items %}
+        <li>
+            <strong>{{ item.product.name }}</strong> - {{ item.quantity }}
+        </li>
+        {% empty %}
+        <li>Cart is empty </li>
+        {% endfor %}
+    </ul>
+    <p>Total price: {{ order.total_price }}</p>
+    <a href="{% url 'checkout' %}">Checkout</a>
+</body>
+</html>
