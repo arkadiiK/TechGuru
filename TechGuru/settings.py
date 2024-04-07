@@ -46,9 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #local
+    'cart',
+    'orders',
+    'products',
     'TechGuru',
+    'users',
     #third_party
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
