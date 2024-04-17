@@ -1,16 +1,8 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
-
-# Set environment variables
-ENV PYTHONUNBUFFERED 1
-ENV DJANGO_SETTINGS_MODULE=TechGuru.settings
-
-# Set work directory
-WORKDIR /TechGuru
-
-# Install dependencies
-COPY requirements.txt /TechGuru/
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy project files to the container
-COPY . /TechGuru/
+# Use the official Python image as the base image
+FROM python
+# Set the working directory inside the container
+WORKDIR TechGuru
+# Copy the requirements.txt file inside the container
+COPY requirements.txt ./
+# Install the dependencies described in the requirements.txt file
+RUN pip install -r requirements.txt
