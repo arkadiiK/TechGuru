@@ -33,7 +33,8 @@ def user_login(request):
                 return redirect('home')
         else:
             form = LoginForm()
-            return render(request, 'login.html', {'form': form})
+
+        return render(request, 'login.html', {'form': form})
 
 
 # logout page
