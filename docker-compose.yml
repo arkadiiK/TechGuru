@@ -1,18 +1,12 @@
 version: '3'
 
 services:
-  web:
+  techguru:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
-    depends_on:
-      - db
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: env('DB_NAME')
-      POSTGRES_USER: env('DB_USER')
-      POSTGRES_PASSWORD: env('DB_PASSWORD')
+      - 5432:5432
+    image: app:techguru
+    container_name: TechGuru
+    command: python manage.py runserver 0.0.0.0:5432
