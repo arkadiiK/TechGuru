@@ -21,6 +21,11 @@ def register(request):
 
 
 # login page
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from .forms import LoginForm  # Import your LoginForm
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -28,13 +33,16 @@ def user_login(request):
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
             user = authenticate(request, email=email, password=password)
-            if user:
+            if user is not None:
                 login(request, user)
                 return redirect('home')
-        else:
-            form = LoginForm()
+            else:
+                # Handle authentication failure
+                return render(request, 'login.html', {'form': form, 'error': 'Invalid email or password'})
+    else:
+        form = LoginForm()  # Initialize form for GET requests
 
-        return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form})
 
 
 # logout page
