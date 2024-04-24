@@ -1,39 +1,22 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Product, Order, OrderItem
+from .forms import ProductForm
+from .models import Product
 
 
 def product_list(request):
     products = Product.objects.all()
-    return render(request, 'templates/product_list.html', {'products': products})
-
-
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'templates/product_detail.html', {'product': product})
+    return render(request, 'product_list.html', {'products': products})
 
 
 @login_required
-def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    order, created = Order.objects.get_or_create(user=request.user, is_ordered=False)
-    order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
-    order_item.quantity += 1
-    order_item.save()
-    return redirect('product_list')
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+        else:
+            form = ProductForm()
 
-
-@login_required
-def view_cart(request, order_item):
-    order = Order.objects.get_or_create(user=request.user, is_ordered=False)
-    order.is_ordered = True
-    order.save()
-    return render(request, 'templates/view_cart.html', {'order': order}, {'order_items': order_item})
-
-
-@login_required
-def checkout(request):
-    order = Order.objects.get_or_create(user=request.user, is_ordered=False)
-    order.is_ordered = True
-    order.save()
-    return render(request, 'templates/checkout.html', {'order': order})
+        return render(request, 'add_product.html', {'form': form})
