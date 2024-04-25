@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+from .forms import LoginForm
 
 
 # home page
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'base.html')
 
 
 # registration page
@@ -21,11 +22,6 @@ def register(request):
 
 
 # login page
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from .forms import LoginForm  # Import your LoginForm
-
-
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -35,12 +31,12 @@ def user_login(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('base')
+                return redirect('/')
             else:
                 # Handle authentication failure
                 return render(request, 'login.html', {'form': form, 'error': 'Invalid email or password'})
     else:
-        form = LoginForm()  # Initialize form for GET requests
+        form = LoginForm()
 
     return render(request, 'login.html', {'form': form})
 
