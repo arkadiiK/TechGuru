@@ -68,7 +68,7 @@ Before you start, make sure you have the following installed:
 
     Open your web browser and navigate to `http://127.0.0.1:8000/` to access the app.
 
-    - Products List: `http://127.0.0.1:8000/products/`
+    - Products List: `http://127.0.0.1:8000/`
     - Add Product: `http://127.0.0.1:8000/add-product/`
     - Login: `http://127.0.0.1:8000/login/`
     - Register: `http://127.0.0.1:8000/register/`
