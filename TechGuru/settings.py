@@ -62,19 +62,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-
 
 ROOT_URLCONF = 'TechGuru.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,6 +85,8 @@ TEMPLATES = [
 ]
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = ''
 
 # Define the path where static files will be collected during deployment
 STATICFILES_DIRS = [
