@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import ProductForm
 from .models import Product
@@ -23,3 +23,11 @@ def add_product(request):
         form = ProductForm()
 
         return render(request, 'add_product.html', {'form': form})
+
+
+@login_required
+def delete_product(request, product_id):
+    if request.method == 'POST':
+        product = get_object_or_404(Product, pk=product_id)
+        product.delete()
+    return redirect("product_list")
