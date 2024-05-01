@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'cart',
     'orders',
     'products',
-    'TechGuru',
     'users',
     # third_party
 ]
