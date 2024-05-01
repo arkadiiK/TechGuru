@@ -12,17 +12,14 @@ def product_list(request):
 
 @login_required
 def add_product(request):
+    form = ProductForm(request.POST, request.FILES)
     if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('product_list')
         else:
             return HttpResponse("Form is not valid", status=400)
-    else:
-        form = ProductForm()
-
-        return render(request, 'add_product.html', {'form': form})
+    return render(request, 'add_product.html', {'form': form})
 
 
 @login_required
