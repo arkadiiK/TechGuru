@@ -1,47 +1,28 @@
-from .forms import RegisterForm
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
-from .forms import LoginForm
+from django.urls import reverse_lazy
+from django.views.generic import FormView
+from .models import User
+from .forms import RegisterForm, LoginForm
+from django.views import View
+from common.mixins import RegistrationMixin, TitleMixin, LoginMixin
 
 
-# home page
-def index(request):
-    return render(request, 'base.html')
+class RegisterView(RegistrationMixin, FormView, TitleMixin):
+    title = 'Registration'
+    model = User
+    form_class = RegisterForm
+    template_name = 'register.html'
+    success_url = reverse_lazy('login')
+    success_message = "Registration successful. You can now log in."
 
 
-# registration page
-def register(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-    else:
-        form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+class LoginView(LoginMixin, FormView, TitleMixin):
+    title = 'Login'
+    form_class = LoginForm
+    template_name = 'login.html'
+    success_url = reverse_lazy('product_list')
+    success_message = "User logged in."
 
 
-# login page
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('/')
-            else:
-                # Handle authentication failure
-                return render(request, 'login.html', {'form': form, 'error': 'Invalid email or password'})
-    else:
-        form = LoginForm()
-
-    return render(request, 'login.html', {'form': form})
-
-
-# logout page
-def user_logout(request):
-    logout(request)
-    return redirect('login')
+class LogoutView(View):
+    success_url = reverse_lazy('login')
+    success_message = "User logged out."

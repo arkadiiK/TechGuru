@@ -1,30 +1,35 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.views.generic import ListView
 from .forms import ProductForm
 from .models import Product
+from common.mixins import TitleMixin, AddProductMixin, DeleteProductMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'product_list.html', {'products': products})
+class ProductListView(TitleMixin, ListView):
+    title = 'Products'
+    model = Product
+    template_name = 'product_list.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        context['products'] = Product.objects.all()
+        return context
 
 
-@login_required
-def add_product(request):
-    form = ProductForm(request.POST, request.FILES)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            return redirect('product_list')
-        else:
-            return HttpResponse("Form is not valid", status=400)
-    return render(request, 'add_product.html', {'form': form})
+class AddProductView(TitleMixin, AddProductMixin, ListView, LoginRequiredMixin):
+    title = 'Add Product'
+    model = Product
+    form_class = ProductForm
+    template_name = 'add_product.html'
+    success_url = reverse_lazy('product_list')
+    success_message = "Product Added Successfully"
+    login_url = reverse_lazy('login')
 
 
-@login_required
-def delete_product(request, product_id):
-    if request.method == 'POST':
-        product = get_object_or_404(Product, pk=product_id)
-        product.delete()
-    return redirect("product_list")
+class DeleteProductView(DeleteProductMixin, ListView, LoginRequiredMixin):
+    model = Product
+    success_url = reverse_lazy('product_list')
+    success_message = "Product Deleted Successfully"
+    login_url = reverse_lazy('login')
