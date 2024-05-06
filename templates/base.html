@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Tech Guru{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'base_styles.css' %}">
+    {% block extra_head %} {% endblock %}
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>Tech Guru</h1>
+        <a href="{% url 'login' %}" class="btn">Login</a>
+        <a href="{% url 'register' %}" class="btn">Register</a>
+    </div>
+</header>
+
+<nav>
+    <div class="container">
+        <ul>
+            <!--<li><a href="{% url 'product_list' %}">Products</a> </li>-->
+            <li><a href="{% url 'add_product' %}">Add product</a> </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <main>
+        {% block content %}
+        <!-- Default content goes here -->
+        {% endblock %}
+    </main>
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Tech Guru</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  techguru:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 5432:5432
+    image: app:techguru
+    container_name: TechGuru
+    command: python manage.py runserver 0.0.0.0:5432
