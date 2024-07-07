@@ -130,7 +130,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-TechGuru/.env
+.env
 .venv
 env/
 venv/
