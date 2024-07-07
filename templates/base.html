@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Tech Guru{% endblock %}</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="{% static 'base_styles.css' %}">
     {% block extra_head %} {% endblock %}
 </head>
@@ -12,15 +12,21 @@
 <header>
     <div class="container">
         <h1>Tech Guru</h1>
-        <a href="{% url 'login' %}" class="btn">Login</a>
-        <a href="{% url 'register' %}" class="btn">Register</a>
+        {% if user.is_authenticated  %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn"> Login </a>
+            <a href="{% url 'register' %}" class="btn"> Register </a>
+        {% endif %}
     </div>
 </header>
 
 <nav>
     <div class="container">
         <ul>
-            <!--<li><a href="{% url 'product_list' %}">Products</a> </li>-->
             <li><a href="{% url 'add_product' %}">Add product</a> </li>
         </ul>
     </div>
@@ -29,7 +35,7 @@
 <div class="container">
     <main>
         {% block content %}
-        <!-- Default content goes here -->
+
         {% endblock %}
     </main>
 </div>
