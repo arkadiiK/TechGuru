@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
-import environ
+import environs
 
-env = environ.Env()
-environ.Env.read_env()
+env = environs.Env()
+env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,8 @@ DEBUG = True
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     # django
@@ -80,17 +83,12 @@ TEMPLATES = [
 ]
 
 STATIC_URL = '/static/'
+STATIC_ROOT = "static"
 
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = ''
-
-# Define the path where static files will be collected during deployment
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 
 WSGI_APPLICATION = 'TechGuru.wsgi.application'
 
@@ -99,12 +97,12 @@ WSGI_APPLICATION = 'TechGuru.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+        'PORT': env('DB_PORT', '5432'),
     }
 }
 
@@ -140,6 +138,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
