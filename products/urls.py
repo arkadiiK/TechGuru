@@ -7,3 +7,6 @@ urlpatterns = [
     path('delete-product/<int:product_id>', DeleteProductView.as_view(), name='delete_product'),
 ]
 
+
+
+
