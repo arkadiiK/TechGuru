@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+</head>
+<body>
+
+
+{% block content %}
+    <h2>Order Summary</h2>
+    <p>Thank you for purchase</p>
+    <p>Total price {{ order.total_price }}</p>
+{% endblock %}
+</body>
+</html>
